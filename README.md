@@ -1,6 +1,9 @@
 > **Note**
 > This fork/branch fixes the peer dependency issue with Webpack 5 and tries to update dependencies if possible without breaking in order to reduce security issues when using `npm audit`
 
+> **Warning**
+> Due to [fast-glob no longer supporting backslashes](https://github.com/mrmlnc/fast-glob/releases/tag/3.0.0) in newer versions, make sure that you change any backslashes to forward slashes in the `files` option.
+
 # webfont-webpack-plugin
 
 [![NPM version](https://img.shields.io/npm/v/webfont-webpack-plugin.svg)](https://www.npmjs.org/package/webfont-webpack-plugin)
