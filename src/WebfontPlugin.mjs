@@ -14,16 +14,17 @@ export default class WebfontPlugin {
       throw new Error("Require `dest` options");
     }
 
-    this.options = Object.assign(
-      {
-        bail: null
-      },
-      options
-    );
+    this.options = {
+      bail: null,
+      ...options
+    };
     this.pluginName = "WebfontPlugin";
+
     if (options.verbose) {
-        console.log(this.pluginName, this.options);
+      // eslint-disable-next-line no-console
+      console.log(this.pluginName, this.options);
     }
+
     this.firstRun = true;
     this.watching = null;
     this.watcher = null;
@@ -109,79 +110,82 @@ export default class WebfontPlugin {
     const { options } = this;
 
     nodify(
-      webfont(options).then(result => {
-        const { fontName, template } = result.config;
-        const dest = path.resolve(this.options.dest);
+      webfont(options)
+        .then(result => {
+          const { fontName, template } = result.config;
+          const dest = path.resolve(this.options.dest);
 
-        let destTemplate = dest;
+          let destTemplate = dest;
 
-        if (result.template) {
-          if (this.options.destTemplate) {
-            destTemplate = path.resolve(this.options.destTemplate);
+          if (result.template) {
+            if (this.options.destTemplate) {
+              destTemplate = path.resolve(this.options.destTemplate);
+            }
+
+            destTemplate = result.usedBuildInTemplate
+              ? path.join(destTemplate, `${fontName}.${template}`)
+              : path.join(
+                  destTemplate,
+                  path.basename(template).replace(".njk", "")
+                );
+
+            if (result.config.config) {
+              const configFilePath = result.config.config;
+
+              if (!this.fileDependencies.includes(configFilePath)) {
+                this.fileDependencies.push(configFilePath);
+              }
+            }
+
+            if (!result.usedBuildInTemplate) {
+              const templateFilePath = result.config.template;
+
+              if (!this.fileDependencies.includes(templateFilePath)) {
+                this.fileDependencies.push(templateFilePath);
+              }
+            }
+
+            result.glyphsData.forEach(glyphData => {
+              const { srcPath } = glyphData;
+              const srcDirname = path.dirname(srcPath);
+
+              if (!this.contextDependencies.includes(srcDirname)) {
+                this.contextDependencies.push(srcDirname);
+              }
+            });
           }
 
-          if (result.usedBuildInTemplate) {
-            destTemplate = path.join(destTemplate, `${fontName}.${template}`);
-          } else {
-            destTemplate = path.join(
-              destTemplate,
-              path.basename(template).replace(".njk", "")
-            );
-          }
+          return Promise.all(
+            Object.keys(result).map(type => {
+              if (
+                type === "config" ||
+                type === "usedBuildInTemplate" ||
+                type === "glyphsData"
+              ) {
+                return Promise.resolve();
+              }
 
-          if (result.config.config) {
-            const configFilePath = result.config.config;
+              const content = result[type];
+              let file = null;
 
-            if (!this.fileDependencies.includes(configFilePath)) {
-              this.fileDependencies.push(configFilePath);
-            }
-          }
+              file =
+                type !== "template"
+                  ? path.resolve(dest, `${fontName}.${type}`)
+                  : destTemplate;
 
-          if (!result.usedBuildInTemplate) {
-            const templateFilePath = result.config.template;
+              if (options.verbose) {
+                // eslint-disable-next-line no-console
+                console.log(this.pluginName, "output file", file);
+              }
 
-            if (!this.fileDependencies.includes(templateFilePath)) {
-              this.fileDependencies.push(templateFilePath);
-            }
-          }
-
-          result.glyphsData.forEach(glyphData => {
-            const { srcPath } = glyphData;
-            const srcDirname = path.dirname(srcPath);
-
-            if (!this.contextDependencies.includes(srcDirname)) {
-              this.contextDependencies.push(srcDirname);
-            }
-          });
-        }
-
-        return Promise.all(
-          Object.keys(result).map(type => {
-            if (
-              type === "config" ||
-              type === "usedBuildInTemplate" ||
-              type === "glyphsData"
-            ) {
-              return Promise.resolve();
-            }
-
-            const content = result[type];
-            let file = null;
-
-            if (type !== "template") {
-              file = path.resolve(dest, `${fontName}.${type}`);
-            } else {
-              file = destTemplate;
-            }
-
-            if (options.verbose) {
-                console.log(this.pluginName, 'output file', file);
-            }
-
-            return fs.outputFile(file, content);
-          })
-        );
-      }).catch(reason => console.error(reason)),
+              return fs.outputFile(file, content);
+            })
+          );
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        }),
       error => callback(error)
     );
   }
