@@ -1,6 +1,6 @@
 {
   "name": "webfont-webpack-plugin",
-  "version": "1.0.0-fix8",
+  "version": "1.0.0-fix9",
   "description": "Webpack plugin for webfont package",
   "license": "MIT",
   "author": "itgalaxy <development@itgalaxy.company>",
@@ -90,11 +90,11 @@
   },
   "scripts": {
     "lint:prettify": "prettier --list-different \"{**/*,*}.{js,mjs,jsx,json,md}\"",
-    "lint:js": "eslint . --report-unused-disable-directives --ignore-path .eslintignore --ext .mjs",
+    "lint:js": "eslint . --report-unused-disable-directives --ignore-path .eslintignore --ext .js,.mjs",
     "lint:md": "remark . -i .gitignore -f -q",
     "lint": "npm-run-all -l --parallel lint:*",
     "prettify": "npm run lint:prettify -- --write",
-    "fix:eslint": "eslint . --fix --ignore-path .eslintignore --ext .mjs",
+    "fix:eslint": "eslint . --fix --ignore-path .eslintignore --ext .js,.mjs",
     "fix": "npm-run-all -l -p fix:*",
     "pretest": "npm run lint",
     "test:only": "jest --config=jest.config.js --runInBand",

@@ -21,15 +21,15 @@ const cssDir = _path.default.join(fixtures, "css");
 const pluginBaseConfig = {
   dest: _path.default.resolve(cssDir, "../css"),
   destTemplate: _path.default.resolve(cssDir, "../css"),
-  files: _path.default.join(fixtures, "svg-icons/**/*.svg").replaceAll('\\', '/'),
+  files: _path.default.join(fixtures, "svg-icons/**/*.svg").replaceAll("\\", "/"),
   template: "css",
   templateFontPath: "./"
 };
 /* eslint-disable no-sync */
 
 describe("webfontPlugin", () => {
-  beforeAll(() => (0, _del.default)([_path.default.resolve(fixtures, "build"), _path.default.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}").replaceAll('\\', '/')]));
-  afterEach(() => (0, _del.default)([_path.default.resolve(fixtures, "build"), _path.default.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}").replaceAll('\\', '/')]));
+  beforeAll(() => (0, _del.default)([_path.default.resolve(fixtures, "build"), _path.default.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}").replaceAll("\\", "/")]));
+  afterEach(() => (0, _del.default)([_path.default.resolve(fixtures, "build"), _path.default.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}").replaceAll("\\", "/")]));
   it("should export `WebfontPlugin` as a class", () => {
     expect(typeof _WebfontPlugin.default === "function").toBe(true);
   });

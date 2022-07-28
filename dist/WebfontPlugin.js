@@ -17,6 +17,12 @@ var _webfont = _interopRequireDefault(require("webfont"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 class WebfontPlugin {
   constructor(options = {}) {
     if (!options.files) {
@@ -27,12 +33,13 @@ class WebfontPlugin {
       throw new Error("Require `dest` options");
     }
 
-    this.options = Object.assign({
+    this.options = _objectSpread({
       bail: null
     }, options);
     this.pluginName = "WebfontPlugin";
 
     if (options.verbose) {
+      // eslint-disable-next-line no-console
       console.log(this.pluginName, this.options);
     }
 
@@ -126,11 +133,7 @@ class WebfontPlugin {
           destTemplate = _path.default.resolve(this.options.destTemplate);
         }
 
-        if (result.usedBuildInTemplate) {
-          destTemplate = _path.default.join(destTemplate, `${fontName}.${template}`);
-        } else {
-          destTemplate = _path.default.join(destTemplate, _path.default.basename(template).replace(".njk", ""));
-        }
+        destTemplate = result.usedBuildInTemplate ? _path.default.join(destTemplate, `${fontName}.${template}`) : _path.default.join(destTemplate, _path.default.basename(template).replace(".njk", ""));
 
         if (result.config.config) {
           const configFilePath = result.config.config;
@@ -168,20 +171,19 @@ class WebfontPlugin {
 
         const content = result[type];
         let file = null;
-
-        if (type !== "template") {
-          file = _path.default.resolve(dest, `${fontName}.${type}`);
-        } else {
-          file = destTemplate;
-        }
+        file = type !== "template" ? _path.default.resolve(dest, `${fontName}.${type}`) : destTemplate;
 
         if (options.verbose) {
-          console.log(this.pluginName, 'output file', file);
+          // eslint-disable-next-line no-console
+          console.log(this.pluginName, "output file", file);
         }
 
         return _fsExtra.default.outputFile(file, content);
       }));
-    }).catch(reason => console.error(reason)), error => callback(error));
+    }).catch(error => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }), error => callback(error));
   }
 
 }
