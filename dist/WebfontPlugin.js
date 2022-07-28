@@ -31,6 +31,11 @@ class WebfontPlugin {
       bail: null
     }, options);
     this.pluginName = "WebfontPlugin";
+
+    if (options.verbose) {
+      console.log(this.pluginName, this.options);
+    }
+
     this.firstRun = true;
     this.watching = null;
     this.watcher = null;
@@ -170,9 +175,13 @@ class WebfontPlugin {
           file = destTemplate;
         }
 
+        if (options.verbose) {
+          console.log(this.pluginName, 'output file', file);
+        }
+
         return _fsExtra.default.outputFile(file, content);
       }));
-    }), error => callback(error));
+    }).catch(reason => console.error(reason)), error => callback(error));
   }
 
 }
