@@ -89,7 +89,7 @@
     "webpack": "^5.74.0"
   },
   "scripts": {
-    "lint:prettify": "prettier --list-different '{**/*,*}.{js,mjs,jsx,json,md}' --ignore-path .gitignore",
+    "lint:prettify": "prettier --write --list-different \"{**/*,*}.{js,mjs,jsx,json,md}\"",
     "lint:js": "eslint . --report-unused-disable-directives --ignore-path .eslintignore",
     "lint:md": "remark . -i .gitignore -f -q",
     "lint": "npm-run-all -l --parallel lint:*",
