@@ -1,6 +1,6 @@
 {
   "name": "webfont-webpack-plugin",
-  "version": "1.0.0-fix3",
+  "version": "1.0.0-fix4",
   "description": "Webpack plugin for webfont package",
   "license": "MIT",
   "author": "itgalaxy <development@itgalaxy.company>",
@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/itgalaxy/webfont-webpack-plugin/issues"
   },
-  "main": "dist/WebfontPlugin.js",
+  "main": "src/WebfontPlugin.js",
   "files": [
     "!**/__tests__/**",
     "dist"
