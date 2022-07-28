@@ -1,3 +1,6 @@
+> **Note**
+> This fork/branch fixes the peer dependency issue with Webpack 5 and tries to update dependencies if possible without breaking in order to reduce security issues when using `npm audit`
+
 # webfont-webpack-plugin
 
 [![NPM version](https://img.shields.io/npm/v/webfont-webpack-plugin.svg)](https://www.npmjs.org/package/webfont-webpack-plugin)
