@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
   testRegex: "src/__tests__/.*\\.(jsx?|js?|tsx?|ts?)$",
   transform: {
