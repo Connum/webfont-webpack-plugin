@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/itgalaxy/webfont-webpack-plugin/issues"
   },
-  "main": "src/WebfontPlugin.mjs",
+  "main": "dist/WebfontPlugin.js",
   "files": [
     "!**/__tests__/**",
     "dist"
@@ -94,7 +94,7 @@
     "lint:md": "remark . -i .gitignore -f -q",
     "lint": "npm-run-all -l --parallel lint:*",
     "prettify": "npm run lint:prettify -- --write",
-    "fix:eslint": "eslint . '.*.js,.*.mjs' --fix --ignore-path .gitignore --ext '.js,.jsx,.mjs'",
+    "fix:eslint": "eslint . '.*.js' --fix --ignore-path .gitignore --ext '.js,.jsx'",
     "fix": "npm-run-all -l -p 'fix:**'",
     "pretest": "npm run lint",
     "test:only": "jest --runInBand",
