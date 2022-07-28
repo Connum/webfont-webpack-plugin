@@ -1,6 +1,6 @@
 {
   "name": "webfont-webpack-plugin",
-  "version": "1.0.0-fix5",
+  "version": "1.0.0-fix6",
   "description": "Webpack plugin for webfont package",
   "license": "MIT",
   "author": "itgalaxy <development@itgalaxy.company>",
