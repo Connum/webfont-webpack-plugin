@@ -2,7 +2,7 @@ import path from "path";
 import del from "del";
 import fs from "fs-extra";
 import webpack from "webpack";
-import WebfontPlugin from "../WebfontPlugin";
+import WebfontPlugin from "../WebfontPlugin.mjs";
 import webpackConfigBase from "./fixtures/config-base";
 
 const fixtures = path.resolve(__dirname, "fixtures");
@@ -11,7 +11,7 @@ const cssDir = path.join(fixtures, "css");
 const pluginBaseConfig = {
   dest: path.resolve(cssDir, "../css"),
   destTemplate: path.resolve(cssDir, "../css"),
-  files: path.join(fixtures, "svg-icons/**/*.svg"),
+  files: path.join(fixtures, "svg-icons/**/*.svg").replaceAll("\\", "/"),
   template: "css",
   templateFontPath: "./"
 };
@@ -22,14 +22,18 @@ describe("webfontPlugin", () => {
   beforeAll(() =>
     del([
       path.resolve(fixtures, "build"),
-      path.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}")
+      path
+        .resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}")
+        .replaceAll("\\", "/")
     ])
   );
 
   afterEach(() =>
     del([
       path.resolve(fixtures, "build"),
-      path.resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}")
+      path
+        .resolve(fixtures, "css/*.{svg,ttf,eot,woff,woff2,css}")
+        .replaceAll("\\", "/")
     ])
   );
 
