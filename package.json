@@ -82,7 +82,7 @@
     "prettier": "^1.17.0",
     "remark-cli": "^6.0.1",
     "remark-preset-lint-itgalaxy": "^14.0.0",
-    "standard-version": "^8.0.1",
+    "standard-version": "^9.5.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "watchpack": "^1.6.0",
@@ -90,7 +90,7 @@
   },
   "scripts": {
     "lint:prettify": "prettier --list-different '{**/*,*}.{js,mjs,jsx,json,md}' --ignore-path .gitignore",
-    "lint:js": "eslint . --report-unused-disable-directives --ignore-path .gitignore",
+    "lint:js": "eslint . --report-unused-disable-directives --ignore-path .eslintignore",
     "lint:md": "remark . -i .gitignore -f -q",
     "lint": "npm-run-all -l --parallel lint:*",
     "prettify": "npm run lint:prettify -- --write",
